@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package test;
+
+
+service TestServer{
+    //聚合
+    rpc  Aggregation (AggReq) returns (AggRsp){}
+    rpc ConfigWarning(ConReq) returns (ConRsp){} 
+}
+
+message AggReq{
+    int64 begin=1;  //开始的时间戳
+    int64 end=2;    //结束的时间戳
+    int64 agg =3; //聚合度
+    string dimension =4;//维度（ip）
+    string metric=5; //指标
+    int64 method = 6; //默认为0;
+
+}
+
+message AggRsp{
+    map<int64,double> value = 1;  //返回时间戳和值
+    int32 code = 2; //返回码
+    string msg = 3; //返回信息
+    
+}
+
+message ConReq{
+    string metric_name = 1; //指标名字
+    string ip = 2;  //ip数值
+    string email = 3;   //邮箱
+    double tip_thres = 4;   //提示
+    double critical_thres = 5; //严重
+    double fatal_thres = 6; //致命
+
+
+}
+message ConRsp{
+    int32 code =1;
+    int32 msg = 2;
+
+}
